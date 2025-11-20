@@ -1,0 +1,45 @@
+CREATE DATABASE IF NOT EXISTS todo_app;
+USE todo_app;
+
+DROP TABLE IF EXISTS tasks;
+
+CREATE TABLE tasks (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  description TEXT,
+  created_at DATE DEFAULT (CURRENT_DATE),
+  due_date DATE,
+  completed TINYINT(1) DEFAULT 0
+);
+
+-- Insert sample data (using fixed dates instead of INTERVAL)
+INSERT INTO tasks (title, description, due_date) VALUES
+('Buy groceries', 'Milk, eggs, bread', '2025-11-21'),
+('Finish SQL practice', 'Complete 3 queries and submit', '2025-11-20'),
+('Call mom', NULL, NULL),
+('Workout', '30 min run', '2025-11-22');
+
+-- List all tasks
+SELECT * FROM tasks
+ORDER BY completed ASC, due_date ASC;
+
+-- Pending tasks
+SELECT * FROM tasks
+WHERE completed = 0
+ORDER BY due_date ASC;
+
+-- Tasks due today (replace with today’s date when running)
+SELECT * FROM tasks
+WHERE due_date = '2025-11-20' AND completed = 0;
+
+-- Mark task completed (example: id = 2)
+UPDATE tasks SET completed = 1 WHERE id = 2;
+
+-- Add new task (no interval)
+INSERT INTO tasks (title, description, due_date) VALUES
+('Read a chapter', 'Read one chapter of a book', '2025-11-23');
+
+-- Delete a task
+DELETE FROM tasks WHERE id = 4;
+
+
